@@ -53,7 +53,7 @@ function! Search(suffix, args)
   try
     " Leave a parenthesis hanging open so we can append the suffix clause if
     " necessary.
-    let l:find = 'find . \( -name ''.?*'' -prune \) -or \( -not \( '.l:excludes.' \)'
+    let l:find = 'find . \( -name ''.?*'' -prune \) -or \( -type f -and -not \( '.l:excludes.' \)'
 
     if a:suffix != ''
       let l:find = l:find . ' -and -name *.'.a:suffix
@@ -62,7 +62,7 @@ function! Search(suffix, args)
     " Close our hanging parenthesis.
     let l:find = l:find . ' -print0 \)'
     
-    let &grepprg = l:find. ' \| xargs -P $(ncpus) -0 grep -In $*'
+    let &grepprg = l:find. ' \| xargs -0 grep -In $*'
     silent execute "grep" l:grepargs
   finally
     let &grepprg = l:old_grepprg

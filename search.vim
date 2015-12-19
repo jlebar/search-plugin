@@ -61,9 +61,9 @@ function! Search(suffix, args)
 
     " Close our hanging parenthesis.
     let l:find = l:find . ' -print0 \)'
-    
+
     let &grepprg = l:find. ' \| xargs -0 grep -In $*'
-    silent execute "grep" l:grepargs
+    silent execute "grep" "-I" l:grepargs
   finally
     let &grepprg = l:old_grepprg
   endtry
